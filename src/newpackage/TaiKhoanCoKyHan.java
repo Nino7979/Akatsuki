@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class TaiKhoanCoKyHan extends TaiKhoan {
 
     private KyHan kyHan;
-    private Date ngayDaoHan; // Thay đổi sang kiểu Date
+    private Date ngayDaoHan; 
 
     public TaiKhoanCoKyHan(String soTaiKhoan, String tenTaiKhoan, String diaChi, String email, double soTien, KyHan kh, Date ndh) {
         super(soTaiKhoan, tenTaiKhoan, diaChi, email, soTien);
@@ -51,7 +51,7 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
                 case 3:
                     return MOT_TUAN;
                 default:
-                    throw new IllegalArgumentException("Loai ky han khong hop le!");
+                    throw new IllegalArgumentException("Loai ky han khong hop le.");
             }
         }
     }
@@ -60,7 +60,7 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
         if (!ktDaoHan()) {
             System.out.println("Chưa đến ngày đáo hạn. Không thể nộp tiền.");
         } else {
-            super.nopTien(soTien);  // Gọi phương thức nopTien của lớp cha
+            super.nopTien(soTien);  
         }
     }
 
@@ -68,13 +68,13 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
         if (!ktDaoHan()) {
             System.out.println("Chưa đến ngày đáo hạn. Không thể rút tiền.");
         } else {
-            super.rutTien(soTien);  // Gọi phương thức rutTien của lớp cha
+            super.rutTien(soTien);  
         }
     }
 
     public boolean ktDaoHan() {
         Date today = new Date(); // Ngày hiện tại
-        return !today.before(ngayDaoHan); // true nếu đã đến hạn hoặc quá hạn
+        return !today.before(ngayDaoHan); 
     }
 
     public void capNhatDaoHan() {
@@ -82,7 +82,7 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(ngayDaoHan);
             calendar.add(Calendar.DAY_OF_YEAR, laySoNgay(calendar));
-            this.ngayDaoHan = calendar.getTime(); // Cập nhật lại ngày đáo hạn
+            this.ngayDaoHan = calendar.getTime(); 
         }
     }
 
@@ -93,7 +93,7 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
             case MOT_THANG:
                 return d.getActualMaximum(Calendar.DAY_OF_MONTH);
             case MOT_TUAN:
-                return 7; // Một tuần luôn là 7 ngày
+                return 7; 
             default:
                 return 0;
         }
@@ -101,20 +101,16 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
 
     public void nhapTK(Scanner sc) {
         super.nhapTK(sc);
-
-        // Nhập thông tin về KyHan
         System.out.println("Nhap thong tin KyHan:");
         System.out.println("1. Ky han 1 nam\n2. Ky han 1 thang\n3. Ky han 1 tuan");
         int loaiKyHan = sc.nextInt();
-        sc.nextLine(); // Đọc dòng trống
+        sc.nextLine(); 
         this.kyHan = KyHan.fromInt(loaiKyHan);
-
-        // Nhập ngày đáo hạn
         System.out.println("Nhap ngay dao han (format: yyyy mm dd):");
-        String ngaydh = sc.nextLine();
+        String ngayDh = sc.nextLine();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            this.ngayDaoHan = df.parse(ngaydh);
+            this.ngayDaoHan = df.parse(ngayDh);
         } catch (ParseException e) {
             System.out.println("Ngày không hợp lệ. Đặt ngày đáo hạn mặc định là hôm nay.");
             this.ngayDaoHan = new Date();
