@@ -41,19 +41,6 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
         MOT_TUAN,
         MOT_THANG,
         MOT_NAM;
-
-        public static KyHan fromInt(int loaiKyHan) {
-            switch (loaiKyHan) {
-                case 1:
-                    return MOT_NAM;
-                case 2:
-                    return MOT_THANG;
-                case 3:
-                    return MOT_TUAN;
-                default:
-                    throw new IllegalArgumentException("Loai ky han khong hop le.");
-            }
-        }
     }
 
     public void nopTien(double soTien) {
@@ -101,11 +88,23 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
 
     public void nhapTK(Scanner sc) {
         super.nhapTK(sc);
-        System.out.println("Nhap thong tin KyHan:");
-        System.out.println("1. Ky han 1 nam\n2. Ky han 1 thang\n3. Ky han 1 tuan");
-        int loaiKyHan = sc.nextInt();
-        sc.nextLine(); 
-        this.kyHan = KyHan.fromInt(loaiKyHan);
+        System.out.println("Nhập thông tin KyHan (1. MOT_TUAN, 2. MOT_THANG, 3. MOT_NAM):");
+        int kyHan = sc.nextInt();
+        sc.nextLine();
+        switch (kyHan) {
+            case 1:
+                this.kyHan = KyHan.MOT_TUAN;
+                break;
+            case 2:
+                this.kyHan = KyHan.MOT_THANG;
+                break;
+            case 3:
+                this.kyHan = KyHan.MOT_NAM;
+                break;
+            default:
+                System.out.println("Kỳ hạn không hợp lệ. Mặc định là 'MOT_TUAN'.");
+                this.kyHan = KyHan.MOT_TUAN;
+        }
         System.out.println("Nhap ngay dao han (format: yyyy mm dd):");
         String ngayDh = sc.nextLine();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -116,7 +115,28 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
             this.ngayDaoHan = new Date();
         }
     }
-
+    public double tienLai() {
+        if (ktDaoHan()) {
+            double laiSuat = 0;
+            switch (kyHan) {
+                case MOT_TUAN:
+                    laiSuat = 0.005;
+                    break;
+                case MOT_THANG:
+                    laiSuat = 0.045;
+                    break;
+                case MOT_NAM:
+                    laiSuat = 0.068;
+                    break;
+            }
+            double tienLai = getSoTien() * laiSuat;
+            this.soTien += tienLai;
+            return tienLai;
+        } else {
+            System.out.println("Chưa đến ngày đáo hạn.");
+            return 0;
+        }
+    }
     @Override
     public String toString() {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
