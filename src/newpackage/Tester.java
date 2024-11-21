@@ -125,7 +125,7 @@ public class Tester {
                 case 6:
                     System.out.print("Nhập số tài khoản cần rút tiền: ");
                     String soTaiKhoanRutTien = sc.nextLine();
-                    TaiKhoan tkRutTien = ql.traCuu1(soTaiKhoanRutTien);
+                    TaiKhoan tkRutTien = ql.traCuu(soTaiKhoanRutTien);
 
                     if (tkRutTien != null) {
                         if (tkRutTien instanceof TaiKhoanCoKyHan && !((TaiKhoanCoKyHan) tkRutTien).ktDaoHan()) {
@@ -134,9 +134,13 @@ public class Tester {
                             System.out.print("Nhập số tiền muốn rút: ");
                             double soTienRut = sc.nextDouble();
                             sc.nextLine(); // Đọc dòng trống
-                            tkRutTien.rutTien(soTienRut);
+                            if(soTienRut > tkRutTien.getSoTien()){
+                                System.out.println("Không đủ số dư.");
+                            } else {
+                                tkRutTien.rutTien(soTienRut);
                             System.out.println("Đã rút tiền thành công!");
                             System.out.println("Số dư hiện tại: " + tkRutTien.getSoTien());
+                            }
                         }
                     } else {
                         System.out.println("Không tìm thấy tài khoản với số tài khoản đã nhập.");
