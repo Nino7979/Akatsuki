@@ -61,7 +61,7 @@ public class TaiKhoanCoKyHan extends TaiKhoan {
 
     public boolean ktDaoHan() {
         Date today = new Date(); // Ngày hiện tại
-        return !today.before(ngayDaoHan); 
+        return today.compareTo(ngayDaoHan) >= 0; 
     }
 
     public void capNhatDaoHan() {
